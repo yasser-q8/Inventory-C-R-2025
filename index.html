@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج جرد البضاعة لعام 2025 - شركة نايف للأغذية | Inventory Count Form 2025 - Naif Food Company</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" type="image/jpeg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f9ff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #059669, #10b981);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: visible;
+        }
+        
+        .company-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fef3c7;
+            background-color: white;
+        }
+        
+        .company-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fef3c7;
+        }
+        
+        .company-name-en {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 5px;
+        }
+        
+        .document-title {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        
+        .document-title-en {
+            text-align: center;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        /* التخطيط الجديد للحقول العلوية */
+        .header-fields-container {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-fields-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .header-field-group {
+            flex: 1;
+            min-width: 220px;
+        }
+        
+        .field-label {
+            color: #fef3c7;
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            display: block;
+        }
+        
+        .field-label-en {
+            display: block;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        
+        .header-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dbeafe;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: white;
+            color: #333;
+            height: 45px;
+        }
+        
+        .header-input::placeholder {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .restaurant-search {
+            position: relative;
+        }
+        
+        .restaurant-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #dbeafe;
+            border-radius: 6px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+        }
+        
+        .restaurant-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+            color: #333;
+        }
+        
+        .restaurant-result-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .restaurant-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .restaurant-en-name {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+        
+        /* باقي الأنماط تبقى كما هي */
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+transform: scale(0.90);
+    transform-origin: top center;
+        }
+        
+        .section-title {
+            background-color: #1e40af;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: #fbbf24;
+        }
+        
+        .group-title {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 20px 0 10px;
+            font-size: 16px;
+            font-weight: 600;
+            border-right: 5px solid #3b82f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .group-name-en {
+            font-size: 14px;
+            color: #4b5563;
+            font-weight: 500;
+            font-style: italic;
+        }
+        
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            table-layout: fixed;
+        }
+        
+        .inventory-table th {
+            background-color: #eff6ff;
+            padding: 12px 10px;
+            text-align: right;
+            font-weight: 700;
+            color: #1e3a8a;
+            border-bottom: 2px solid #bfdbfe;
+            font-size: 15px;
+        }
+        
+        .inventory-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #dbeafe;
+            text-align: right;
+            transition: background-color 0.2s;
+            height: 40px;
+            vertical-align: middle;
+        }
+        
+        .inventory-table tr:hover td {
+            background-color: #f8fafc;
+        }
+        
+        .inventory-table input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid #dbeafe;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            text-align: right;
+            height: 36px;
+        }
+        
+        .inventory-table input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            outline: none;
+        }
+        
+        /* إزالة أزرار الزيادة والنقصان في حقول الأرقام */
+        .inventory-table input[type=number]::-webkit-inner-spin-button,
+        .inventory-table input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .inventory-table input[type=number] {
+            -moz-appearance: textfield;
+        }
+        
+        .code-column {
+            width: 100px;
+        }
+        
+        .item-column {
+            width: 300px;
+        }
+        
+        .package-column {
+            width: 120px;
+        }
+        
+        .quantity-column {
+            width: 120px;
+        }
+        
+        .notes-column {
+            width: 200px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .btn {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #1e40af;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1e3a8a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: #059669;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #047857;
+            transform: translateY(-2px);
+        }
+        
+        .btn-reset {
+            background-color: #dc2626;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background-color: #b91c1c;
+            transform: translateY(-2px);
+        }
+        
+        .btn-add {
+            background-color: #d97706;
+            color: white;
+        }
+        
+        .btn-add:hover {
+            background-color: #b45309;
+            transform: translateY(-2px);
+        }
+        
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px dashed #bfdbfe;
+        }
+        
+        .signature-box {
+            flex: 1;
+            min-width: 220px;
+        }
+        
+        .signature-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dbeafe;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 8px;
+            text-align: center;
+            height: 45px;
+        }
+        
+        .signature-label {
+            font-weight: 600;
+            color: #1e3a8a;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .signature-label-en {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid #dbeafe;
+        }
+        
+        .inventory-group {
+            margin-bottom: 30px;
+        }
+        
+        .empty-row {
+            height: 10px;
+        }
+        
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dbeafe;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        .search-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        .search-label-en {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        
+        .manager-box {
+            min-width: 220px;
+        }
+        
+        .manager-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #dbeafe;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            color: #333;
+            cursor: not-allowed;
+        }
+        
+        .manager-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        .manager-label-en {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        
+        @media (max-width: 1200px) {
+            .inventory-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .code-column, .item-column, .package-column, .notes-column {
+                min-width: 120px;
+            }
+            
+            .quantity-column {
+                min-width: 100px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .header-fields-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-field-group {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .company-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-fields-row {
+                flex-direction: column;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-box, .manager-box {
+                min-width: 100%;
+            }
+        }
+        
+        .date-display {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-style: italic;
+            display: none;
+        }
+        
+        .table-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .total-items {
+            background-color: #eff6ff;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        
+        /* طباعة */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            
+            .print-section, .print-section * {
+                visibility: visible;
+            }
+            
+            .print-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 10px;
+            }
+            
+            .page-break {
+                page-break-inside: avoid;
+            }
+            
+            .page-header {
+                text-align: center;
+                margin-bottom: 10px;
+                padding-bottom: 8px;
+                border-bottom: 2px solid #059669;
+            }
+            
+            .print-logo {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #059669;
+                margin: 0 auto 8px;
+            }
+            
+            .print-company {
+                font-size: 18px;
+                font-weight: bold;
+                color: #059669;
+                margin-bottom: 3px;
+            }
+            
+            .print-company-en {
+                font-size: 14px;
+                color: #4b5563;
+                margin-bottom: 8px;
+            }
+            
+            .print-title {
+                font-size: 16px;
+                font-weight: bold;
+                color: #1e3a8a;
+                margin-bottom: 5px;
+            }
+            
+            .print-title-en {
+                font-size: 14px;
+                color: #6b7280;
+                margin-bottom: 8px;
+            }
+            
+            .print-info {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                font-size: 12px;
+                flex-wrap: wrap;
+            }
+            
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 15px;
+                font-size: 12px;
+                page-break-inside: auto;
+            }
+            
+            .print-table th {
+                background-color: #f8fafc;
+                padding: 6px 5px;
+                text-align: right;
+                font-weight: bold;
+                color: #1e3a8a;
+                border: 1px solid #dbeafe;
+                font-size: 11px;
+            }
+            
+            .print-table td {
+                padding: 4px 5px;
+                border: 1px solid #dbeafe;
+                text-align: right;
+                page-break-inside: avoid;
+                page-break-after: auto;
+                font-size: 11px;
+                height: 28px;
+            }
+            
+            .print-table tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+                height: 30px;
+            }
+            
+            .print-signatures {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 30px;
+                padding-top: 15px;
+                border-top: 1px dashed #bfdbfe;
+                font-size: 12px;
+                page-break-inside: avoid;
+            }
+            
+            .print-signature-box {
+                text-align: center;
+                width: 23%;
+            }
+            
+            .print-signature-label {
+                font-weight: bold;
+                display: block;
+                margin-bottom: 3px;
+                border-bottom: 1px solid #bfdbfe;
+                padding-bottom: 3px;
+                font-size: 11px;
+            }
+            
+            .print-signature-label-en {
+                font-size: 9px;
+                color: #6b7280;
+                margin-bottom: 5px;
+            }
+            
+            .group-title-print {
+                background-color: #eff6ff;
+                padding: 8px 10px;
+                margin: 12px 0 8px;
+                border-right: 4px solid #3b82f6;
+                font-weight: bold;
+                color: #1e3a8a;
+                font-size: 13px;
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
+            
+            .group-name-en-print {
+                font-size: 11px;
+                color: #4b5563;
+                font-weight: 500;
+                font-style: italic;
+                margin-top: 2px;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* إدخال القائم بالجرد واسم المطعم */
+        .restaurant-input, .inventory-by-input, .restaurant-manager-input {
+            background-color: white !important;
+            color: #333 !important;
+        }
+        
+        .restaurant-input::placeholder, .inventory-by-input::placeholder, .restaurant-manager-input::placeholder {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        /* توقيع المطور */
+        .signature-card {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #FF6E00, #2196F3);
+            color: white;
+            padding: 10.5px 17.5px;
+            border-radius: 8.5px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1000;
+            animation: float 6s ease-in-out infinite;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .signature-card:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4); 
+        }
+        
+        @keyframes float { 
+            0% { transform: translateY(0px); } 
+            50% { transform: translateY(-15px); } 
+            100% { transform: translateY(0px); } 
+        }
+        
+        .signature-card::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(135deg, #80EF80, #2196F3);
+            border-radius: 14px;
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+            background-size: 400%;
+        }
+        
+        @keyframes borderGlow { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+        
+        .signature-card .name { 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            margin-bottom: 5px; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3); 
+        }
+        
+        .signature-card .title { 
+            font-size: 0.7rem; 
+            opacity: 0.9; 
+            font-weight: 500; 
+        }
+        
+        @media (max-width: 768px) { 
+            .signature-card { 
+                position: relative; 
+                bottom: auto; 
+                left: auto; 
+                margin: 20px auto 0; 
+                width: fit-content; 
+                animation: none; 
+            } 
+            .signature-card:hover { 
+                transform: none; 
+            } 
+        }
+        
+        @media print {
+            .signature-card {
+                display: none;
+            }
+        }
+        
+        .group-A { border-right: 5px solid #3b82f6; } /* أزرق للمجمدات */
+        .group-B { border-right: 5px solid #10b981; } /* أخضر للمواد الغذائية */
+        .group-C { border-right: 5px solid #0ea5e9; } /* أزرق فاتح للمشروبات */
+        .group-D { border-right: 5px solid #8b5cf6; } /* بنفسجي للتوابل */
+        .group-E { border-right: 5px solid #f59e0b; } /* برتقالي للخبز */
+        .group-F { border-right: 5px solid #ef4444; } /* أحمر للمواد الكيميائية */
+        .group-G { border-right: 5px solid #6366f1; } /* نيلي لغير الغذائية */
+        .group-H { border-right: 5px solid #14b8a6; } /* فيروزي للقرطاسية */
+        .group-J { border-right: 5px solid #f97316; } /* برتقالي غامق للمعدات */
+        .group-KITCHEN { border-right: 5px solid #ec4899; } /* وردي للمطبخ */
+        .group-L { border-right: 5px solid #84cc16; } /* أخضر فاتح للمقهى */
+        .group-MISC { border-right: 5px solid #78716c; } /* رمزي للمتنوع */
+        
+        /* إخفاء المجموعات عند البحث */
+        .group-hidden {
+            display: none;
+        }
+        
+        /* تحسين عرض أسماء المطاعم الإنجليزية */
+        .restaurant-name-en {
+            font-size: 13px;
+            color: #6b7280;
+            font-style: italic;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signature-card">
+        <div class="name">Yasser Elkhateeb</div>
+        <div class="title">مطور البرنامج 67011143 </div>
+        <div class="title">Program Developer </div>
+    </div>
+    
+    <div class="header">
+        <div class="company-info">
+            <div class="logo-container">
+                <img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" alt="شعار شركة نايف للأغذية | Naif Food Company Logo" class="logo">
+                <div>
+                    <div class="company-name">شركة نايف للأغذية</div>
+                    <div class="company-name-en">Naif Food Company</div>
+                    <div>نموذج إلكتروني لجرد البضاعة</div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8);">Electronic Inventory Count Form</div>
+                </div>
+            </div>
+            <div class="date-display">
+                <i class="fas fa-calendar-alt"></i>
+                تاريخ الجرد: 23-12-2025 | Count Date: 23-12-2025
+            </div>
+        </div>
+        
+        <h1 class="document-title">كشف جرد البضاعة لعام 2025</h1>
+        <div class="document-title-en">Inventory Count Report 2025</div>
+        
+        <!-- التخطيط الجديد للحقول العلوية -->
+        <div class="header-fields-container">
+            <div class="header-fields-row">
+                <div class="header-field-group">
+                    <span class="field-label">المطعم | Restaurant
+                        <span class="field-label-en">Select restaurant from list</span>
+                    </span>
+                </div>
+                <div class="header-field-group">
+                    <span class="field-label">مسئول المطعم | Restaurant Manager
+                        <span class="field-label-en">Enter restaurant manager name</span>
+                    </span>
+                </div>
+                <div class="header-field-group">
+                    <span class="field-label">القائم بالجرد | Inventory By
+                        <span class="field-label-en">Person conducting inventory count</span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="header-fields-row">
+                <div class="header-field-group restaurant-search">
+                    <input type="text" id="restaurant-search" class="restaurant-input header-input" placeholder="اكتب اسم المطعم للبحث... | Type restaurant name to search...">
+                    <div id="restaurant-results" class="restaurant-results"></div>
+                </div>
+                <div class="header-field-group">
+                    <input type="text" id="restaurant-manager" class="restaurant-manager-input header-input" placeholder="اسم مسئول المطعم | Restaurant manager name">
+                </div>
+                <div class="header-field-group">
+                    <input type="text" id="inventory-by" class="inventory-by-input header-input" placeholder="اسم القائم بالجرد | Inventory person name">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="search-container">
+            <div class="search-box">
+                <label for="search-input"><i class="fas fa-search"></i> بحث عن الصنف | Search Item
+                    <span class="search-label-en">Search by item name or code</span>
+                </label>
+                <input type="text" id="search-input" placeholder="اكتب اسم الصنف أو الكود للبحث... | Type item name or code to search...">
+            </div>
+            <div class="manager-box">
+                <label for="area-manager"><i class="fas fa-user-tie"></i> مدير المنطقة | Area Manager
+                    <span class="manager-label-en">Automatically filled when selecting restaurant</span>
+                </label>
+                <input type="text" id="area-manager" readonly>
+            </div>
+            <div class="manager-box">
+                <label for="operations-manager"><i class="fas fa-user-cog"></i> مدير التشغيل | Operations Manager
+                    <span class="manager-label-en">Automatically filled when selecting restaurant</span>
+                </label>
+                <input type="text" id="operations-manager" readonly>
+            </div>
+        </div>
+        
+        <!-- المجموعة A: المجمدات (-18°C) -->
+        <div class="inventory-group" id="group-A-container">
+            <div class="group-title group-A">
+                <div>
+                    <i class="fas fa-snowflake"></i>
+                    المجموعة A: المجمدات (-18°C)
+                    <div class="group-name-en">Group A: Frozen Items (-18°C)</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-A-count">15</span> | Items: <span id="group-A-count-en">15</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-A-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-A-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-A-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-A-btn" data-group="A">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة A | Add New Item to Group A
+            </button>
+        </div>
+        
+        <!-- المجموعة B: المواد الغذائية -->
+        <div class="inventory-group" id="group-B-container">
+            <div class="group-title group-B">
+                <div>
+                    <i class="fas fa-utensils"></i>
+                    المجموعة B: المواد الغذائية
+                    <div class="group-name-en">Group B: Food Items</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-B-count">27</span> | Items: <span id="group-B-count-en">27</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-B-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-B-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-B-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-B-btn" data-group="B">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة B | Add New Item to Group B
+            </button>
+        </div>
+        
+        <!-- المجموعة C: المشروبات -->
+        <div class="inventory-group" id="group-C-container">
+            <div class="group-title group-C">
+                <div>
+                    <i class="fas fa-wine-bottle"></i>
+                    المجموعة C: المشروبات
+                    <div class="group-name-en">Group C: Beverages</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-C-count">14</span> | Items: <span id="group-C-count-en">14</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-C-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-C-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-C-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-C-btn" data-group="C">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة C | Add New Item to Group C
+            </button>
+        </div>
+        
+        <!-- المجموعة D: التوابل -->
+        <div class="inventory-group" id="group-D-container">
+            <div class="group-title group-D">
+                <div>
+                    <i class="fas fa-pepper-hot"></i>
+                    المجموعة D: التوابل
+                    <div class="group-name-en">Group D: Spices</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-D-count">3</span> | Items: <span id="group-D-count-en">3</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-D-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-D-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-D-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-D-btn" data-group="D">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة D | Add New Item to Group D
+            </button>
+        </div>
+        
+        <!-- المجموعة E: الخبز والمعجنات -->
+        <div class="inventory-group" id="group-E-container">
+            <div class="group-title group-E">
+                <div>
+                    <i class="fas fa-bread-slice"></i>
+                    المجموعة E: الخبز والمعجنات
+                    <div class="group-name-en">Group E: Bread & Pastry</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-E-count">13</span> | Items: <span id="group-E-count-en">13</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-E-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-E-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-E-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-E-btn" data-group="E">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة E | Add New Item to Group E
+            </button>
+        </div>
+        
+        <!-- المجموعة F: المواد الكيميائية والتنظيف -->
+        <div class="inventory-group" id="group-F-container">
+            <div class="group-title group-F">
+                <div>
+                    <i class="fas fa-pump-soap"></i>
+                    المجموعة F: المواد الكيميائية والتنظيف
+                    <div class="group-name-en">Group F: Chemicals & Cleaning</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-F-count">20</span> | Items: <span id="group-F-count-en">20</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-F-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-F-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-F-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-F-btn" data-group="F">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة F | Add New Item to Group F
+            </button>
+        </div>
+        
+        <!-- المجموعة G: غير الغذائية -->
+        <div class="inventory-group" id="group-G-container">
+            <div class="group-title group-G">
+                <div>
+                    <i class="fas fa-box"></i>
+                    المجموعة G: غير الغذائية
+                    <div class="group-name-en">Group G: Non Food</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-G-count">63</span> | Items: <span id="group-G-count-en">63</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-G-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-G-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-G-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-G-btn" data-group="G">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة G | Add New Item to Group G
+            </button>
+        </div>
+        
+        <!-- المجموعة H: القرطاسية -->
+        <div class="inventory-group" id="group-H-container">
+            <div class="group-title group-H">
+                <div>
+                    <i class="fas fa-pen"></i>
+                    المجموعة H: القرطاسية
+                    <div class="group-name-en">Group H: Stationary</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-H-count">6</span> | Items: <span id="group-H-count-en">6</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-H-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-H-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-H-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-H-btn" data-group="H">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة H | Add New Item to Group H
+            </button>
+        </div>
+        
+        <!-- المجموعة J: المعدات وقطع الغيار -->
+        <div class="inventory-group" id="group-J-container">
+            <div class="group-title group-J">
+                <div>
+                    <i class="fas fa-tools"></i>
+                    المجموعة J: المعدات وقطع الغيار
+                    <div class="group-name-en">Group J: Equipment & Spares</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-J-count">6</span> | Items: <span id="group-J-count-en">6</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-J-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-J-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-J-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-J-btn" data-group="J">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة J | Add New Item to Group J
+            </button>
+        </div>
+        
+        <!-- المجموعة KITCHEN: المقبلات واللحوم والخضروات -->
+        <div class="inventory-group" id="group-KITCHEN-container">
+            <div class="group-title group-KITCHEN">
+                <div>
+                    <i class="fas fa-utensil-spoon"></i>
+                    المجموعة KITCHEN: المقبلات واللحوم والخضروات
+                    <div class="group-name-en">Group KITCHEN: Appetizers, Meat & Vegetables</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-KITCHEN-count">85</span> | Items: <span id="group-KITCHEN-count-en">85</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-KITCHEN-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-KITCHEN-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-KITCHEN-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-KITCHEN-btn" data-group="KITCHEN">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة KITCHEN | Add New Item to Group KITCHEN
+            </button>
+        </div>
+        
+        <!-- المجموعة L: مقهى نايف -->
+        <div class="inventory-group" id="group-L-container">
+            <div class="group-title group-L">
+                <div>
+                    <i class="fas fa-coffee"></i>
+                    المجموعة L: مقهى نايف
+                    <div class="group-name-en">Group L: Naif Cafe</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-L-count">38</span> | Items: <span id="group-L-count-en">38</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-L-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-L-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-L-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-L-btn" data-group="L">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة L | Add New Item to Group L
+            </button>
+        </div>
+        
+        <!-- المجموعة المتنوعة -->
+        <div class="inventory-group" id="group-MISC-container">
+            <div class="group-title group-MISC">
+                <div>
+                    <i class="fas fa-ellipsis-h"></i>
+                    المجموعة المتنوعة
+                    <div class="group-name-en">Group MISC: Miscellaneous</div>
+                </div>
+                <span class="total-items">عدد الأصناف: <span id="group-MISC-count">0</span> | Items: <span id="group-MISC-count-en">0</span></span>
+            </div>
+            
+            <table class="inventory-table" id="group-MISC-table">
+                <thead>
+                    <tr>
+                        <th class="code-column">الكود | Code</th>
+                        <th class="item-column">الصنف | Item</th>
+                        <th class="package-column">الشد (العبوة) | Package</th>
+                        <th class="quantity-column">الكمية | Quantity</th>
+                        <th class="notes-column">ملاحظات | Notes</th>
+                        <th style="width: 60px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="group-MISC-items">
+                    <!-- سيتم تعبئتها بواسطة JavaScript -->
+                </tbody>
+            </table>
+            <div class="no-results" id="group-MISC-no-results">لا توجد نتائج تطابق بحثك | No results match your search</div>
+            <button class="btn btn-add" id="add-group-MISC-btn" data-group="MISC">
+                <i class="fas fa-plus"></i> إضافة صنف جديد للمجموعة المتنوعة | Add New Item to Group MISC
+            </button>
+        </div>
+        
+        <div class="signatures">
+            <div class="signature-box">
+                <span class="signature-label">القائم بعملية الجرد | Inventory By
+                    <span class="signature-label-en">Person conducting inventory count</span>
+                </span>
+                <input type="text" id="inventory-by-signature" placeholder="اسم القائم بالجرد | Inventory person name">
+            </div>
+            <div class="signature-box">
+                <span class="signature-label">مسئول المطعم | Restaurant Manager
+                    <span class="signature-label-en">Restaurant manager name</span>
+                </span>
+                <input type="text" id="restaurant-manager-signature" placeholder="اسم مسئول المطعم | Restaurant manager name">
+            </div>
+            <div class="signature-box">
+                <span class="signature-label">مشرف المنطقة | Area Supervisor
+                    <span class="signature-label-en">Area supervisor name</span>
+                </span>
+                <input type="text" id="area-supervisor" placeholder="اسم مشرف المنطقة | Area supervisor name">
+            </div>
+            <div class="signature-box">
+                <span class="signature-label">مدير التشغيل | Operations Manager
+                    <span class="signature-label-en">Operations manager name</span>
+                </span>
+                <input type="text" id="operations-manager-signature" placeholder="اسم مدير التشغيل | Operations manager name">
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-primary" id="saveBtn">
+                <i class="fas fa-save"></i> حفظ البيانات | Save Data
+            </button>
+            <button class="btn btn-primary" id="printBtn">
+                <i class="fas fa-print"></i> طباعة النموذج | Print Form
+            </button>
+            <button class="btn btn-secondary" id="exportBtn">
+                <i class="fas fa-file-excel"></i> تصدير إلى Excel | Export to Excel
+            </button>
+            <button class="btn btn-reset" id="resetBtn">
+                <i class="fas fa-redo"></i> مسح النموذج | Reset Form
+            </button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 شركة نايف للأغذية. جميع الحقوق محفوظة. | © 2025 Naif Food Company. All rights reserved.</p>
+        <p>نموذج جرد البضاعة الإلكتروني - الإصدار النهائي | Electronic Inventory Count Form - Final Version</p>
+    </div>
+
+    <!-- قسم الطباعة (مخفي) -->
+    <div id="print-content" class="hidden"></div>
+
+    <script>
+        // بيانات المطاعم والمديرين (مع أسماء إنجليزية)
+        const restaurants = [
+            {name: "الفيحاء", nameEn: "Faiha", areaManager: "محمد حجازي", operationsManager: "طارق بيومي"},
+            {name: "شارع البحرين", nameEn: "Bahrain Street", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "جمعية العدان والقصور", nameEn: "Adan & Qusor Society", areaManager: "محمد أنور", operationsManager: "طارق بيومي"},
+            {name: "الجابرية تكا و فرايد", nameEn: "Jabriya Tikka & Fried", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "الفحاحيل", nameEn: "Fahaheel", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "أبو حليفة", nameEn: "Abu Halifa", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "الرقعي", nameEn: "Raqqi", areaManager: "عماد عبدالحميد", operationsManager: "طارق بيومي"},
+            {name: "مشرف", nameEn: "Mishref", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "النافورة", nameEn: "Al-Nafoura", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "القادسية", nameEn: "Qadsiya", areaManager: "محمد حجازي", operationsManager: "طارق بيومي"},
+            {name: "صباح السالم", nameEn: "Sabah Al-Salem", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "الضباعية", nameEn: "Al-Dabbawiya", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "الشرق", nameEn: "Al-Sharq", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "الجابرية بنت الديك", nameEn: "Jabriya Bint Al-Deek", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "الجهراء الزويخ", nameEn: "Jahra Zoweikh", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "الشويخ واره", nameEn: "Shuwaikh Ware", areaManager: "محمد حجازي", operationsManager: "طارق بيومي"},
+            {name: "السيد ياسين", nameEn: "Al-Sayed Yassin", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "الفنطاس", nameEn: "Fintas", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "السندباد", nameEn: "Sinbad", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "المطار", nameEn: "Airport", areaManager: "محمد حجازي", operationsManager: "طارق بيومي"},
+            {name: "المنقف", nameEn: "Mangaf", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "حولي بارك", nameEn: "Hawally Park", areaManager: "محمد حجازي", operationsManager: "طارق بيومي"},
+            {name: "الرقة", nameEn: "Raqqa", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "الرحاب", nameEn: "Al-Rehab", areaManager: "عماد عبدالحميد", operationsManager: "طارق بيومي"},
+            {name: "هدية", nameEn: "Hadiya", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "نادي الصليبخات", nameEn: "Salibikhat Club", areaManager: "عماد عبدالحميد", operationsManager: "طارق بيومي"},
+            {name: "الجهراء الصناعية", nameEn: "Jahra Industrial", areaManager: "محمد حجازي", operationsManager: "طارق بيومي"},
+            {name: "الفروانية", nameEn: "Farwaniya", areaManager: "عماد عبدالحميد", operationsManager: "طارق بيومي"},
+            {name: "أسواق القرين", nameEn: "Qurain Markets", areaManager: "محمد أنور", operationsManager: "طارق بيومي"},
+            {name: "سلوى", nameEn: "Salwa", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "سوق الجليب", nameEn: "Jleeb Market", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "الشهداء", nameEn: "Al-Shuhada", areaManager: "محمد أنور", operationsManager: "طارق بيومي"},
+            {name: "الدسمة وبنيد القار", nameEn: "Dasma & Bneid Al-Qar", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "جمعية صباح الاحمد", nameEn: "Sabah Al-Ahmad Society", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "الافينيوز", nameEn: "The Avenues", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "الصليبية الصناعية", nameEn: "Sulaibiya Industrial", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "جمعية أبوفطيرة", nameEn: "Abu Futaira Society", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "غرب أبو فطيرة", nameEn: "West Abu Futaira", areaManager: "محمد أنور", operationsManager: "طارق بيومي"},
+            {name: "خيطان العصيمي", nameEn: "Khaitan Al-Osaimi", areaManager: "محمد أنور", operationsManager: "طارق بيومي"},
+            {name: "الوفرة", nameEn: "Al-Wafra", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "جمعية القيروان", nameEn: "Al-Qiran Society", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "شرق الاحمدي", nameEn: "East Ahmadi", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "الفروانية فرع 2", nameEn: "Farwaniya Branch 2", areaManager: "عماد عبدالحميد", operationsManager: "طارق بيومي"},
+            {name: "جمعية الصليبية", nameEn: "Sulaibiya Society", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "جمعية الزهراء", nameEn: "Al-Zahra Society", areaManager: "محمد أنور", operationsManager: "طارق بيومي"},
+            {name: "جمعية مدينة جابر الأحمد", nameEn: "Jaber Al-Ahmad City Society", areaManager: "عماد عبدالحميد", operationsManager: "طارق بيومي"},
+            {name: "الخيران أوتليت مول", nameEn: "Khiran Outlet Mall", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "الخيران أويا مول", nameEn: "Khiran Oya Mall", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "الجهراء ليالي الشرق", nameEn: "Jahra Layali Al-Sharq", areaManager: "محمد حجازي", operationsManager: "طارق بيومي"},
+            {name: "الجهراء مجمع مكة", nameEn: "Jahra Makkah Complex", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "العارضية الجديد", nameEn: "New Ardiya", areaManager: "عماد عبدالحميد", operationsManager: "طارق بيومي"},
+            {name: "الري", nameEn: "Al-Ri", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "مارينا مول", nameEn: "Marina Mall", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"},
+            {name: "صباح السالم (العرين)", nameEn: "Sabah Al-Salem (Al-Areen)", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "مول 360", nameEn: "Mall 360", areaManager: "محمد أنور", operationsManager: "طارق بيومي"},
+            {name: "الخيول", nameEn: "Al-Khyoul", areaManager: "ثروت المرجاوي", operationsManager: "هاني عبدالله"},
+            {name: "مجمع الكوت", nameEn: "Al-Kout Complex", areaManager: "وليد صبري", operationsManager: "هاني عبدالله"},
+            {name: "كبد", nameEn: "Kabd", areaManager: "طارق حمدي", operationsManager: "طارق بيومي"},
+            {name: "سعد العبدالله", nameEn: "Saad Al-Abdullah", areaManager: "مختار عزالدين", operationsManager: "هاني عبدالله"}
+        ];
+        
+        // بيانات البضاعة المحدثة من ملف Excel
+        const inventoryItems = {
+            'A': [
+                {code: 'A1007', name: 'Beef Burger Big(برجر لحم كبير)', package: 'Pcs'},
+                {code: 'A1008', name: 'Beef Burger Small(برجر لحم صغير)', package: 'Pcs'},
+                {code: 'A1009', name: 'Butter Finger(زبدة اصابع)', package: 'Pcs'},
+                {code: 'A1010', name: 'Butter Portion ( زبدة بورشن)', package: 'Pcs'},
+                {code: 'L1041', name: 'Cheese Cake Snickers (تشيز كيك سنيكرز)', package: 'Pcs'},
+                {code: 'A1016', name: 'Cheese Cake Strawberry (تشيز كيك فراولة)', package: 'Pcs'},
+                {code: 'A1004', name: 'Chicken Burger Small ( برجر دجاج صغير)', package: 'Pcs'},
+                {code: 'A1006', name: 'Chicken Nuggets( ناجيت تمبورا)', package: 'Pcs'},
+                {code: 'A1001', name: 'French Fries 6×6 LW ( شبس لامب وستون)', package: 'Packet FRIES'},
+                {code: 'A1011', name: 'FRZ Paratha ( شباتي براتا)', package: 'Pcs'},
+                {code: 'A1020', name: 'Hushbrown Rings(بطاط هاش براون مدور)', package: 'Pcs'},
+                {code: 'A1013', name: 'Mozzarella shd cheese(جبنة موزريلا)', package: 'Kilo Gram'},
+                {code: 'A1003', name: 'Mozzarella Stick(اصابع مودزريلا)', package: 'Pcs'},
+                {code: 'A1002', name: 'Onion Rings( حلقات بصل)', package: 'Pcs'},
+                {code: 'A1014', name: 'Twister Fries LW (بطاط حلزونية تويستر)', package: 'Packet (2.5 kg)'}
+            ],
+            'B': [
+                {code: 'B1007', name: 'Basmati Rice( ارزبسمتى)', package: 'Kilo Gram'},
+                {code: 'B2043', name: 'Cheddar Cheese Sauce (جبنة شيدر صوص)', package: 'Gallon (3KG)'},
+                {code: 'B1002', name: 'Cheese slice( جبنة شرائح)', package: 'Pcs'},
+                {code: 'B1021', name: 'Chilli Mayonnaise (مايونيز بالشطة)', package: 'Gallon (3.78 ltr)'},
+                {code: 'B1016', name: 'Cucumber Pickle-Shawrma(مخلل خيار زهرة -شاورما)', package: 'Kilo Gram'},
+                {code: 'B1023', name: 'Dates in Packet ( تمر باكيتات)', package: 'D CARTON (3 Kgs)'},
+                {code: 'B2053', name: 'Dill Pickle slice( خيار مخلل شرائح)', package: 'Bottle (400 Grm)'},
+                {code: 'B2035', name: 'Dry Raisin(زبيب كشمش)', package: 'Kilo Gram'},
+                {code: 'B2045', name: 'Jam Assorted( مربي )', package: 'Bottle Jam'},
+                {code: 'B1005', name: 'Ketchup Gal( كاتشب جالون)', package: 'Kilo Gram'},
+                {code: 'B1004', name: 'Ketchup Sachets(كاتشب بورشن نايف)', package: 'Pcs'},
+                {code: 'B2030', name: 'Labneh ( لبنة)', package: 'Kilo Gram'},
+                {code: 'B1011', name: 'Lipton Tea Bags(شاى ليبتون باكيت)', package: 'Pcs'},
+                {code: 'B1012', name: 'Maggi Cubes-Chicken(ماجي مكعبات دجاج)', package: 'Pcs'},
+                {code: 'B1003', name: 'Mayonnaise(مايونيز)', package: 'Gallon Mayo'},
+                {code: 'B2041', name: 'Milk Portion ( حليب بورشن)', package: 'Pcs'},
+                {code: 'B1006', name: 'Olive Oil( زيت زيتون)', package: 'Gallon (10 Ltrs)'},
+                {code: 'B1020', name: 'Peri Peri Sauce (صلصة البيري بيري)', package: 'Gallon (3.78 ltr)'},
+                {code: 'B1017', name: 'Ranch Dressing(صلصة رانش)', package: 'Gallon (3.97 Ltr)'},
+                {code: 'B1009', name: 'Salt ( ملح طعام)', package: 'Packet (1 Kg)'},
+                {code: 'B1010', name: 'Salt Sachets( ملح بورشن)', package: 'Pcs'},
+                {code: 'B1001', name: 'Shortening ( شورتنج امريكي شد 22.680ك)', package: 'Carton (50 Lbs)'},
+                {code: 'B2001', name: 'Sugar Sachets(سكر بورشن)', package: 'Pcs'},
+                {code: 'B10566', name: 'Sweet Chilli Sauce Gal (صلصة الفلفل الحلو جالون)', package: 'Kilo Gram'}
+            ],
+            'C': [
+                {code: 'C20140', name: 'Alsi Cola Zero(السي كولا زيرو)', package: 'Pcs'},
+                {code: 'C20139', name: 'Alsi Cola(السي كولا)', package: 'Pcs'},
+                {code: 'C1005', name: 'Aquafina Water 600ml ( مياة أكوافينا صغير)', package: 'Pcs'},
+                {code: 'C20138', name: 'Kinza Citrus كينزا حمضيات', package: 'Pcs'},
+                {code: 'C20135', name: 'Kinza Cola كينزا كولا', package: 'Pcs'},
+                {code: 'C20136', name: 'Kinza Lemon كينزا ليمون', package: 'Pcs'},
+                {code: 'C20137', name: 'Kinza Orange كينزا برتقال', package: 'Pcs'},
+                {code: 'C1003', name: 'Pepsi 1.25 Ltr ( بيبسى عائلى)', package: 'Pcs'},
+                {code: 'C1004', name: 'Pepsi 2.25 Ltr( بيبسى عائلى)', package: 'Pcs'},
+                {code: 'C1001', name: 'Pepsi BIB Syrup( بيبسي ماكينة)', package: 'BIB (18 Ltrs)'},
+                {code: 'C1002', name: 'Pepsi Can 250ml(بيبسى علب250 م)', package: 'Pcs'},
+                {code: 'C1010', name: 'Rawdatain Water 500ml (مياه معدنية الروضتين)', package: 'Pcs'},
+                {code: 'C1006', name: 'Shireen Juice(عصيرشيرين)', package: 'Pcs'},
+                {code: 'C20141', name: 'Stream Lemon 250ml (ستريم ليمون 250 مل)', package: 'Pcs'}
+            ],
+            'D': [
+                {code: 'D2036', name: 'Baraka Nigella seeds( حبة البركة )', package: 'Kilo'},
+                {code: 'D1002', name: 'Black Pepper Sachets (فلفل اسود بورشن)', package: 'Pcs'},
+                {code: 'D1001', name: 'Red Chilli Powder(فلفل احمر بودرة)', package: 'Kilo'}
+            ],
+            'E': [
+                {code: 'E1001', name: 'Arabic Bread (خبز عربى شد3)', package: 'Packet (3 Pcs)'},
+                {code: 'E1012', name: 'Arabic Bread (خبز عربى للشاورما)', package: 'Pcs'},
+                {code: 'B1023', name: 'Brioche Bun Dbl Glaze(خبز بريوش دبل جليز)', package: 'Pcs'},
+                {code: 'E1003', name: 'Hamburger Bread Big ( خبز همبرجر كبير)', package: 'Pcs'},
+                {code: 'E1002', name: 'Hamburger Bread Small ( خبز همبرجر صغير)', package: 'Pcs'},
+                {code: 'E1005', name: 'Magnum Bread( خبز ملتي تيست)', package: 'Pcs'},
+                {code: 'E1007', name: 'Potato Burger Bun( خبز همبرجر بطاط)', package: 'Pcs'},
+                {code: 'E1006', name: 'Protein Bun(خبز همبرجر بروتين)', package: 'Pcs'},
+                {code: 'E1010', name: 'Round Croissant (خبز كروسون مدور)', package: 'Pcs'},
+                {code: 'E1013', name: 'Slider Bun (خبز سلايدر )', package: 'Pcs'},
+                {code: 'E1014', name: 'Tannur Bread(خبز تنور)', package: 'Packet (5 Pcs)'},
+                {code: 'E1008', name: 'Tortella Bread white 20cm (خبز تورتيلا راب)', package: 'Pcs'}
+            ],
+            'F': [
+                {code: 'F1004', name: 'All Purpose Liq ( صابون سائل)', package: 'Carton (4 Gal)'},
+                {code: 'F1009', name: 'Clorox ( كلوركس)', package: 'Liter'},
+                {code: 'F1008', name: 'Dettol ( ديتول)', package: 'Gallon'},
+                {code: 'F1014', name: 'Floor Brush ( بروش ارضية)', package: 'Pcs'},
+                {code: 'F1002', name: 'Garbage Bag Black ( اكياس قمامة اسود)', package: 'Kilo Gram'},
+                {code: 'F1011', name: 'Glass Cleaner ( منظف زجاج)', package: 'Pcs'},
+                {code: 'F1010', name: 'Hand Sanitizer ( معقم ايدى)', package: 'Liter'},
+                {code: 'F1005', name: 'Hand Soap Liquid ( صابون سائل لليدين)', package: 'Liter'},
+                {code: 'F1012', name: 'Insect Killer Spray ( قاتل حشرات)', package: 'Pcs'},
+                {code: 'F1019', name: 'J-Cloth ( فوطة طاولة)', package: 'Pcs'},
+                {code: 'F2002', name: 'M-Tork / رول تواليت مقطوع كبير', package: 'Packet (12 Pcs)'},
+                {code: 'F1001', name: 'Maxi Roll ( تواليت رول)', package: 'Pcs'},
+                {code: 'F1017', name: 'Mop Cotton W/Stick (موب قطن كامل مع عصا)', package: 'Pcs'},
+                {code: 'F1018', name: 'Mop Head ( موب قطن)', package: 'Pcs'},
+                {code: 'F1006', name: 'Oven Cleaner Liq ( منظف شواية)', package: 'Gallon Oven Cleaner'},
+                {code: 'F1016', name: 'Sponge ( اسفنج)', package: 'Pcs'},
+                {code: 'F2003', name: 'T-Tork / رول تواليت مقطوع صغير', package: 'Packet (100 Pcs)'},
+                {code: 'F2001', name: 'Toilet Roll Small / رول حمام صغير', package: 'Packet (6 Pcs)'},
+                {code: 'F1013', name: 'Water Squeezer ( جلدة ارضية)', package: 'Pcs'}
+            ],
+            'G': [
+                {code: 'G2057', name: 'Almn Platter / صحن المونيوم (OV2)', package: 'Pcs'},
+                {code: 'G1046', name: 'Alu Container#83190(ماعون المونيوم كبير)', package: 'Pcs'},
+                {code: 'G1021', name: 'Alu foil wrap Big Fillet ( ورق سندوتش سلفر كبير-نايف)', package: 'Pcs'},
+                {code: 'G1020', name: 'Alu foil wrap Sandwich ( ورق سندوتش سلفر-نايف)', package: 'Packet (500 Pcs)'},
+                {code: 'G1019', name: 'Alu foil wrap Shawarma(ورق سلفر للشاورما)', package: 'Packet (500 Pcs)'},
+                {code: 'G1043', name: 'Aluminium Container 3 dept ( ماعون كبدة)', package: 'Pcs'},
+                {code: 'G1038', name: 'Aluminium Foil ( المونيوم فويل)', package: 'Roll--'},
+                {code: 'G1014', name: 'Aluminum Container#83120 (ماعون المونيوم تكا+بنت الديك)', package: 'Pcs'},
+                {code: 'G1013', name: 'Big Fillet Sandwich Box(علب بيج فيلية ساندويش)', package: 'Pcs'},
+                {code: 'G2024', name: 'Break Fast Container 5CP (ماعون ميكرويف للفطار)', package: 'Pcs'},
+                {code: 'G1018', name: 'Burger Box ( علب برجر+فيلية)', package: 'Pcs'},
+                {code: 'G1050', name: 'Charcoal ( فحم)', package: 'Kilo Gram'},
+                {code: 'G1061', name: 'Clear Container 2 Oz Hing lid (ماعون شفاف 2 اونص مع غطاء)', package: 'Pcs'},
+                {code: 'G1024', name: 'Cling Film Roll ( كلينج فيلم)', package: 'Roll--'},
+                {code: 'G2058', name: 'Container-Shawaya magic (ماعون شواية ماجيك )', package: 'Pcs'},
+                {code: 'G1007', name: 'Dinner Box ( علب دينر)', package: 'Pcs'},
+                {code: 'G1039', name: 'Disposable Plst Apron ( مريول نايلون)', package: 'Pcs'},
+                {code: 'G1060', name: 'Exp Date Sticker Naif (استيكر تاريخ نايف)', package: 'Exp Date Sheet'},
+                {code: 'G1001', name: 'Family Meal Bucket 170oz ( سطل وجبة فاميلي)', package: 'Pcs'},
+                {code: 'G1004', name: 'Filter Bag Big( فلتر قماش كبير)', package: 'Pcs'},
+                {code: 'G1005', name: 'Filter Bag Small( فلتر قماش سغر)', package: 'Pcs'},
+                {code: 'G1006', name: 'French fries Box-Lrg (علب شيبسى كبير)', package: 'Pcs'},
+                {code: 'G1010', name: 'French Fries Box-Med(علب شيبسي وسط)', package: 'Pcs'},
+                {code: 'G1008', name: 'French Fries Box-Small(علب شيبسي صغير)', package: 'Pcs'},
+                {code: 'G1040', name: 'Hair Net ( كاب قطن)', package: 'Pcs'},
+                {code: 'G2023', name: 'Hot Tea Cup 8oz (جلاس ورق للشاي)', package: 'Pcs'},
+                {code: 'G1065', name: 'Kids Fries Pouch - علب شيبس اطفال شد 1550', package: 'Pcs'},
+                {code: 'G1009', name: 'Kids Meal Box ( علب وجبة أطفال)', package: 'Pcs'},
+                {code: 'G1022', name: 'N-Box ( بوكس- N)', package: 'Pcs'},
+                {code: 'G1023', name: 'Napkin Plain 30*30 ( نابكن سادة)', package: 'Packet (100 Pcs)'},
+                {code: 'G2028', name: 'Paper Bag #1 Naif كيس ورق رقم 1 نايف-شد 10كيلو', package: 'Pcs'},
+                {code: 'G1015', name: 'Paper Bag #3 Naif( كيس ورق رقم 3نايف)', package: 'Pcs'},
+                {code: 'G1002', name: 'Paper bag W/H -Small (شنطة ورق نايف-صغير)', package: 'Pcs'},
+                {code: 'G1017', name: 'Paper Bag W/H-Big ( شنطة ورق نايف كبير)', package: 'Pcs'},
+                {code: 'G1054', name: 'Paper Cup 16oz Naif(ماعون ورق 16 اونص نايف)', package: 'Pcs'},
+                {code: 'G2033', name: 'Paper Face Mask (كمامة ورق)', package: 'Pcs'},
+                {code: 'G1003', name: 'Paper Plate Naif ( ماعون ورق نايف)', package: 'Pcs'},
+                {code: 'G1059', name: 'Pepsi Carrier 4 Cup(حاملات 4 كوب)', package: 'Pcs'},
+                {code: 'G1057', name: 'Pepsi Glass 24 oz(جلاس بيبسى 24اونص)', package: 'Pcs'},
+                {code: 'G1058', name: 'Pepsi Glass-32oz ( جلاس بيبسى 32اونص)', package: 'Pcs'},
+                {code: 'G1055', name: 'Pepsi Glass16 oz(جلاس بيبسى 16اونص)', package: 'Pcs'},
+                {code: 'G1030', name: 'Place Mat Naif ( بلاسمات نايف)', package: 'Pcs'},
+                {code: 'G1032', name: 'Plastic Bag 50*50 Naif ( اكياس نايلون 50*50 نايف)', package: 'kilo 500 pcs'},
+                {code: 'G1035', name: 'Plastic Bag 50*50 Plain ( اكياس علاقة صغير)', package: 'kilo 500 pcs'},
+                {code: 'G1033', name: 'Plastic Bag 50*80 Transp ( اكياس نايلون شفاف)', package: 'Kilo Gram 200 pcs'},
+                {code: 'G2045', name: 'Plastic Bag 65*65 Plain(اكياس علاقة كبير 65*65)', package: 'Kilo Gram'},
+                {code: 'G1028', name: 'Plastic Fork Blk HD ( شوكة اسود)', package: 'Pcs'},
+                {code: 'G1025', name: 'Plastic Glass 7oz ( جلاس ماء)', package: 'Pcs'},
+                {code: 'G1067', name: 'Plastic Knife /سكينة بلاستيك', package: 'Packet (100 Pcs)'},
+                {code: 'G1027', name: 'Plastic Spoon ( ملاعق بلاستيك)', package: 'Pcs'},
+                {code: 'G2027', name: 'Plastic Tea Spoon ( ملاعق شاى)', package: 'Pcs'},
+                {code: 'G1031', name: 'Plst Blk Base Container-Shawaya ( ماعون بلاستيك للشواية)', package: 'Pcs'},
+                {code: 'G1041', name: 'Plst Clr Container 2oz( ماعون ثوم مجانى)', package: 'Pcs'},
+                {code: 'G1069', name: 'Plst Container 150ml /علب صوصات 150م', package: 'Packet (60 Pcs)'},
+                {code: 'G1062', name: 'Plst Sushi Contnr SCF3/ماعون سوشي أسود صغير', package: 'Pcs'},
+                {code: 'G1051', name: 'Pointed Straws ( شاليمون ملون للعصير)', package: 'Pcs'},
+                {code: 'G2063', name: 'Puri Box 300 علب بوري', package: 'Pcs'},
+                {code: 'G2054', name: 'Rice Bowl Lid 105 Oz Naif Food (ماعون ار', package: 'Pcs'},
+                {code: 'G1045', name: 'Round Sticker Naif(استيكر مدور نايف)', package: 'SHEET'},
+                {code: 'G1037', name: 'Sandwich Paper Wrap-Plain ( ورق ساندوش عادى)', package: 'Pcs'},
+                {code: 'G2059', name: 'Slider box (علبة سلايدر )', package: 'Pcs'},
+                {code: 'G2068', name: 'Snack Box /علبة سناك', package: 'Pcs'},
+                {code: 'G1029', name: 'Straw Wrapped ( شاليمون مغلف)', package: 'Pcs'},
+                {code: 'G2060', name: 'surface sanitizer (مطهر و معقم 650 مل )', package: 'Bottle (650 ml)'},
+                {code: 'G1053', name: 'Thrift Meal Bucket 130oz ( سطل ثرفت باك)', package: 'Pcs'},
+                {code: 'G1048', name: 'Tooth Picks ( نكاشات اسنان)', package: 'Packet Tooth Picks'},
+                {code: 'G1052', name: 'Toys ( العاب اطفال)', package: 'Pcs'},
+                {code: 'G1066', name: 'Transp Cheese Cake Box /علب شفاف تشيز كيك', package: 'Pcs'},
+                {code: 'G2069', name: 'Transp Plst Glass 16oz (جلاس شفاف 16 اونص)', package: 'Pcs'},
+                {code: 'G1036', name: 'Trnsp Plastic Gloves (جلفز بلاستيك)', package: 'Packet (100 Gloves)'},
+                {code: 'G1042', name: 'Vinyl Gloves(جلفز طبى الفينيل)', package: 'Pcs'},
+                {code: 'G1044', name: 'Wax For Charcoal ( مشعل فحم)', package: 'Pcs'},
+                {code: 'G1026', name: 'Wax Paper Roll(ريكولاينر)', package: 'Roll'}
+            ],
+            'H': [
+                {code: 'H1001', name: 'A4 Paper ( A4-ورق طابعة)', package: 'Packet (500 Pcs)'},
+                {code: 'H1004', name: 'Cash Roll 2Ply ( رول ماكينة مزدوج)', package: 'Roll'},
+                {code: 'H1006', name: 'Cash Roll Delivery( رول ماكينة ديليفري)', package: 'Roll'},
+                {code: 'H1005', name: 'Compt Toner 85A (85 A حبر طابعه)', package: 'Pcs'},
+                {code: 'H1003', name: 'Epson Ribbon ERC38 ( شريط ماكينة صغير)', package: 'Pcs'},
+                {code: 'H1002', name: 'Thermal Cash Roll ( رول ماكينة كاش العصيمى)', package: 'Roll'}
+            ],
+            'J': [
+                {code: 'J1006', name: 'Energy Saver Bulb ( لمبه توفيرالطاقه)', package: 'Pcs'},
+                {code: 'J1004', name: 'Fl Tube Insect Killer 45CM ( لمبه قاتله حشرات)', package: 'Pcs'},
+                {code: 'J1005', name: 'Fluorescent Tube 2ft ( لمبه نيون 2 قدم)', package: 'Pcs'},
+                {code: 'J1001', name: 'Halogen lamp 500W (لمبه كشاف)', package: 'Pcs'},
+                {code: 'J1003', name: 'Heat lamp 100W ( لمبه شيبس)', package: 'Pcs'},
+                {code: 'J1009', name: 'Water Filter (شمعه فلتر )', package: 'Pcs'}
+            ],
+            'KITCHEN': [
+                {code: 'K2038', name: 'Cheddar Cheese Portion (500Grm صوص جبنة شيدر)', package: 'Packet (500 Grm)'},
+                {code: 'K2044', name: 'Cheddar Cheese Sauce Spicy / صوص جبنة فلفل', package: 'Packet (500 Grm)'},
+                {code: 'K2005', name: 'Cole Slaw Big (كول سلو كبير)', package: 'Pcs'},
+                {code: 'K2006', name: 'Cole Slaw Small ( كول سلو صغير)', package: 'Pcs'},
+                {code: 'K2011', name: 'Eggs ( بيض)', package: 'Pcs'},
+                {code: 'K2035', name: 'Fattoush Salad Big ( سلطة فتوش كبيرة)', package: 'Pcs'},
+                {code: 'K2014', name: 'Fattoush Salad Small (سلطة فتوش صغيرة)', package: 'Pcs'},
+                {code: 'K2010', name: 'Flour Dough (طحين عادي)', package: 'Kilo Gram'},
+                {code: 'K2039', name: 'Fresh Orange Juice ( عصير برتقال طازج-خالي من السكر والمواد الحاف)', package: 'Pcs'},
+                {code: 'K2017', name: 'Garlic Paste ( ثوم شاورما مجهز)', package: 'Packet (1 Kg)'},
+                {code: 'K2018', name: 'Garlic Paste 100gm (ثوم 100 غرام)', package: 'Pcs'},
+                {code: 'K2019', name: 'Garlic Paste 30gm ( ثوم 30 غرام)', package: 'Pcs'},
+                {code: 'K2046', name: 'Honey Mustard K (صلصة عسل الخردل)', package: 'Kilo Gram'},
+                {code: 'K2001', name: 'Hummus ( حمص)', package: 'Pcs'},
+                {code: 'K2020', name: 'Hummus large ( ماعون حمص كبير)', package: 'Pcs'},
+                {code: 'K2009', name: 'Laban Naif Small (لبن نايف صغير )', package: 'Pcs'},
+                {code: 'K2021', name: 'Lemon Sauce ( صوص ليمون)', package: 'Pcs'},
+                {code: 'k2047', name: 'MABOUG SAUCE (صوص معبوج)', package: 'Packet (500 Grm)'},
+                {code: 'K2045', name: 'Mayo Ketchup Sauce / صوص مايو الكاتشب', package: 'Packet (500 Grm)'},
+                {code: 'K2032', name: 'Mix Spices for Rice ( بهارات مشكلة للارز)', package: 'Packet(15 Grm)-'},
+                {code: 'K2026', name: 'Mix-Flour Chicken Seasoning ( طحين بهارات فرايد)', package: 'Kilo'},
+                {code: 'K2002', name: 'Mutabbal ( متبل)', package: 'Pcs'},
+                {code: 'K2022', name: 'Mutabbal Large ( ماعون متبل كبير)', package: 'Pcs'},
+                {code: 'K2050', name: 'Pink Sauce (بينك صوص)', package: 'Kilo'},
+                {code: 'K2007', name: 'Puri ( بوري)', package: 'Pcs'},
+                {code: 'K2008', name: 'Rice&Milk Pudding ( أرز بالحليب)', package: 'Pcs'},
+                {code: 'K2033', name: 'Rocca Salad Big ( سلطة جرجيركبيرة)', package: 'Pcs'},
+                {code: 'K2016', name: 'Rocca Salad Small ( سلطة الجرجيرصغيرة)', package: 'Pcs'},
+                {code: 'K2031', name: 'Sauce for Biryani Rice ( صوص الارز)', package: 'Pcs'},
+                {code: 'K2049', name: 'Spices for French fries /خليط توابل للبطاط', package: 'Kilo'},
+                {code: 'K2052', name: 'Sweet Garlic Sauce / سويت جارليك صوص', package: 'Packet (500 Grm)'},
+                {code: 'K2034', name: 'Taboulla Salad Big ( سلطة تبولة كبيرة)', package: 'Pcs'},
+                {code: 'K2015', name: 'Taboulla Salad Small ( سلطة تبوله صغيرة)', package: 'Pcs'},
+                {code: 'K2036', name: 'Vegitable Salad Big ( سلطة خضراء كبيرة)', package: 'Pcs'},
+                {code: 'K2012', name: 'Vegitable Salad Small ( سلطة خضراء صغيرة)', package: 'Pcs'},
+                {code: 'K1014', name: 'Bint Al-Deek ( بنت الديك)', package: 'Pcs'},
+                {code: 'K1016', name: 'Ch.Finger Fillet Spicy ( اصابع فيليه فلفل)', package: 'Pcs'},
+                {code: 'K1035', name: 'Chicken Big Fillet ( بيج فيلية)', package: 'Pcs'},
+                {code: 'K1036', name: 'Chicken Big Fillet Spicy ( بيج فيلية فلفل)', package: 'Pcs'},
+                {code: 'K1007', name: 'Chicken Drum Stick ( درام ستيك)', package: 'Pcs'},
+                {code: 'K1008', name: 'Chicken Fillet ( فيليه عادي)', package: 'Pcs'},
+                {code: 'K1009', name: 'Chicken Fillet Spicy ( فيليه فلفل)', package: 'Pcs'},
+                {code: 'K1015', name: 'Chicken Finger Fillet ( اصابع فيليه)', package: 'Pcs'},
+                {code: 'K1012', name: 'Chicken Fried ( دجاج فرايد عادي)', package: 'Pcs'},
+                {code: 'K1013', name: 'Chicken Fried Spicy (دجاج فرايد فلفل)', package: 'Pcs'},
+                {code: 'K1002', name: 'Chicken Kabab ( كباب دجاج)', package: 'Kilo Gram'},
+                {code: 'K1001', name: 'Chicken Shawarma ( شاورما دجاج)', package: 'Kilo'},
+                {code: 'K1071', name: 'Chicken Small Wings Nor جناح صغير عادي', package: 'Pcs'},
+                {code: 'K1072', name: 'Chicken Small Wings Spicy جناح صغير فلفل', package: 'Pcs'},
+                {code: 'K1006', name: 'Chicken Tikka ( دجاج تكا عادي)', package: 'Pcs'},
+                {code: 'K1004', name: 'Chicken Tikka Brest ( تكا صدور)', package: 'Pcs'},
+                {code: 'K1005', name: 'Chicken Tikka Thigh (تكا فخذ)', package: 'Pcs'},
+                {code: 'K1010', name: 'Chicken Wings جناح متبل', package: 'Pcs'},
+                {code: 'K1039', name: 'Drumstic whole Fried ( وصلة دجاج عادي)', package: 'Pcs'},
+                {code: 'K1040', name: 'Drumstick whole Fried spicy ( وصلة دجاج فلفل)', package: 'Pcs'},
+                {code: 'K1073', name: 'Fillet Pizza /فيلية بيتزا عادي', package: 'Pcs'},
+                {code: 'K1075', name: 'Fillet Pizza Grill / فيلية بيتزا مشوي', package: 'Pcs'},
+                {code: 'K1074', name: 'Fillet Pizza Spicy / فيلية بيتزا فلفل', package: 'Pcs'},
+                {code: 'K1070', name: 'Fresh Burger Chickens برجر دجاج طازج', package: 'Kilo Gram'},
+                {code: 'K1044', name: 'Grill Chicken Pc -Multi Taste ( قطع دجاج جرل صغير)', package: 'Kilo'},
+                {code: 'K1049', name: 'Grilled Chicken Fillet فيليه مشوي', package: 'Pcs'},
+                {code: 'K1076', name: 'Grilled Chicken Pc / قطع دجاج مشويه', package: 'Pcs'},
+                {code: 'K1017', name: 'Grilled Quils (فري مشوي)', package: 'Pcs'},
+                {code: 'K120199', name: 'Half Boneless chicken -نصف دجاجة مسحب', package: 'Pcs'},
+                {code: 'K1042', name: 'Happy Chicken Pc ( قطع دجاح فرايد صغير عادي)', package: 'Kilo'},
+                {code: 'K1043', name: 'Happy Chicken Pc-Spicy ( قطع دجاح فرايد صغير فلفل)', package: 'Kilo'},
+                {code: 'K1011', name: 'Rooster Junior ( فروج نايف)', package: 'Pcs'},
+                {code: 'K1020', name: 'Royal Grilled Chicken (دجاج شواية ملكي)', package: 'Pcs'},
+                {code: 'K1003', name: 'Sish Tawouk ( شيش طاووق)', package: 'Kilo Gram'},
+                {code: 'K3039', name: 'Capsicum Dice Cut/فلفل مقطع صغير', package: 'Packet (500 Grm)'},
+                {code: 'K3005', name: 'Carrots (جزر طازج)', package: 'Packet (500 Grm)'},
+                {code: 'K3030', name: 'Fresh Cucumber (خيار طازجة)', package: 'Kilo'},
+                {code: 'K3012', name: 'Fresh Lemons (ليمون طازج)', package: 'Kilo'},
+                {code: 'K3014', name: 'Fresh Oranges (برتقال طازج)', package: 'Kilo'},
+                {code: 'K3017', name: 'Green Capsicum (فلفل حلو)', package: 'Packet (500 Grm)'},
+                {code: 'K3009', name: 'Iceberg Lettuce (خس مدور)', package: 'Kilo'},
+                {code: 'K3041', name: 'Onion Dice Cut / بصل مقطع صغير', package: 'Packet (500 Grm)'},
+                {code: 'K3011', name: 'Onions White (بصل ابيض طازج)', package: 'Kilo'},
+                {code: 'K3003', name: 'Parsley (بقدونس)', package: 'Kilo'},
+                {code: 'K3002', name: 'Tomatoes ( طماطم)', package: 'Kilo Gram'}
+            ],
+            'L': [
+                {code: 'L1031', name: 'Balck berry Syrup (شراب التوت الأسود)', package: 'Bottle (700 ml)'},
+                {code: 'L1007', name: 'Barista Milk (حليب باريستا )', package: 'Carton (12 Pcs)'},
+                {code: 'L1020', name: 'Blueberry Syrup (شراب التوت الازرق)', package: 'Bottle (700 ml)'},
+                {code: 'L1034', name: 'Brown Sugar Sachets(سكراسمر بورشن)', package: 'Carton (1000 Pcs)'},
+                {code: 'L1030', name: 'Caramel Sauce (صوص الكراميل)', package: 'Bottle (500 ml)'},
+                {code: 'L1037', name: 'Carnation Milk ( حليب كرنييشن)', package: 'Carton (48 Tin * 170ml)'},
+                {code: 'L1043', name: 'Cheese Cake Oreo (تشيز كيك اوريو)', package: 'Pcs'},
+                {code: 'L1042', name: 'Cheese Cake Red Velvet(تشيز كيك ريد فالفيت)', package: 'Pcs'},
+                {code: 'L1011', name: 'Choco cookies Syrup (شراب شيكولا كوكيز)', package: 'Bottle (700 ml)'},
+                {code: 'L1032', name: 'Chocolate Powder ( شوكولات بودرة )', package: 'Tin (500 Gm)'},
+                {code: 'L1005', name: 'Cocoa Powder(كاكاو حليب بودر)', package: 'Kilo'},
+                {code: 'L1033', name: 'Condensed Milk (حليب مكثف)', package: 'Bottle (500 ml)'},
+                {code: 'L1004', name: 'Cuppucino Milk Powder (حليب كابتشينو بودر بريتزا )', package: 'Kilo Gram'},
+                {code: 'L1012', name: 'Dark Choco Syrup(صوص شيكولا اسود)', package: 'Bottle (500 ml)'},
+                {code: 'L1003', name: 'Espresso beans (اسبرسو حب)', package: 'Kilo'},
+                {code: 'L1002', name: 'French Coffee (قهوة فرنسية)', package: 'Kilo'},
+                {code: 'L1008', name: 'Full Fat UHT Milk (حليب كامل الدسم )', package: 'Carton (12 Pcs)'},
+                {code: 'L1039', name: 'Green tea Bags (شاي الأخضر باكيت)', package: 'Carton (1000 Pcs)'},
+                {code: 'L1015', name: 'Hazelnut Syrup (شراب البندق)', package: 'Bottle (700 ml)'},
+                {code: 'L1009', name: 'Low Fat Milk (حليب قليل الدسم )', package: 'Carton (12 Pcs)'},
+                {code: 'L1017', name: 'Mojito Mint Syrup (شراب الموجيتو(النعناع)700ملل)', package: 'Bottle (700 ml)'},
+                {code: 'L1016', name: 'Mojito Raspberry syrup (شراب التوت البرى 700ملل)', package: 'Bottle (700 ml)'},
+                {code: 'L1018', name: 'Mojito Strawberry Syrup(ستروبرى موهيتو)', package: 'Bottle (700 ml)'},
+                {code: 'L1006', name: 'Nescafe (نسكافيه 200جرام)', package: 'Bottle (200 grm)'},
+                {code: 'L1027', name: 'paper 2Cup Carrier (حاملات كوبين)', package: 'Packet (100 Pcs)'},
+                {code: 'L1029', name: 'Paper Bag Small Black (شنطه صغير بيد اسود)', package: 'Carton (250 Pcs)'},
+                {code: 'L1023', name: 'Paper Cup 12oz Blk (جلاس ورق 12 اونص اسود)', package: 'Pcs'},
+                {code: 'L1024', name: 'Paper Cup 16oz Blk (جلاس ورق 16 اونص اسود)', package: 'Pcs'},
+                {code: 'L1021', name: 'Paper Cup Blk 4oz (جلاس ورق 4 اونص اسود)', package: 'Carton (1000 Pcs)'},
+                {code: 'L1022', name: 'paper Cup Blk 8oz (جلاس ورق 8 اونص اسود)', package: 'Carton (1000 Pcs)'},
+                {code: 'L1019', name: 'Passion Fruit Syrup (شراب بيشن فروت)', package: 'Bottle (700 ml)'},
+                {code: 'L1028', name: 'Straw Wrapped Black (شاليمون اسود)', package: 'Carton (250 Pcs)'},
+                {code: 'L1038', name: 'Tea powder ( شاي بودرة)', package: 'Carton (12 Pkt * 800 Gm)'},
+                {code: 'L1025', name: 'Transp Cup 14oz (جلاس شفاف 14 اونص)', package: 'Carton (1000 Pcs)'},
+                {code: 'L1001', name: 'Turkish Coffee (قهوة تركية)', package: 'Kilo'},
+                {code: 'L1014', name: 'Vanilla Syrup (شراب الفانيليا)', package: 'Bottle (700 ml)'},
+                {code: 'L1010', name: 'Whipped cream bottle (كريمة مخفوقة بوتل)', package: 'Carton (12 Pcs)'},
+                {code: 'L1035', name: 'Wood Stirrers 14cm (نمامون الخشب 14 سم)', package: 'Packet (1000 Pcs)'},
+                {code: 'L1036', name: 'Wood Stirrers 21cm (نمامون الخشب 21 سم)', package: 'Packet (1000 Pcs)'}
+            ],
+            'MISC': [] // مجموعة المتنوعة (تبدأ فارغة)
+        };
+        
+        // أسماء المجموعات للعرض
+        const groupNames = {
+            'A': {ar: 'المجموعة A: المجمدات (-18°C)', en: 'Group A: Frozen Items (-18°C)'},
+            'B': {ar: 'المجموعة B: المواد الغذائية', en: 'Group B: Food Items'},
+            'C': {ar: 'المجموعة C: المشروبات', en: 'Group C: Beverages'},
+            'D': {ar: 'المجموعة D: التوابل', en: 'Group D: Spices'},
+            'E': {ar: 'المجموعة E: الخبز والمعجنات', en: 'Group E: Bread & Pastry'},
+            'F': {ar: 'المجموعة F: المواد الكيميائية والتنظيف', en: 'Group F: Chemicals & Cleaning'},
+            'G': {ar: 'المجموعة G: غير الغذائية', en: 'Group G: Non Food'},
+            'H': {ar: 'المجموعة H: القرطاسية', en: 'Group H: Stationary'},
+            'J': {ar: 'المجموعة J: المعدات وقطع الغيار', en: 'Group J: Equipment & Spares'},
+            'KITCHEN': {ar: 'المجموعة KITCHEN: المقبلات واللحوم والخضروات', en: 'Group KITCHEN: Appetizers, Meat & Vegetables'},
+            'L': {ar: 'المجموعة L: مقهى نايف', en: 'Group L: Naif Cafe'},
+            'MISC': {ar: 'المجموعة المتنوعة', en: 'Group MISC: Miscellaneous'}
+        };
+        
+        // دالة لإنشاء صفوف البضاعة
+        function createInventoryRows(groupId) {
+            const container = document.getElementById(`group-${groupId}-items`);
+            const items = inventoryItems[groupId];
+            container.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.dataset.itemCode = item.code.toLowerCase();
+                row.dataset.itemName = item.name.toLowerCase();
+                row.dataset.group = groupId;
+                row.innerHTML = `
+                    <td>${item.code}</td>
+                    <td>${item.name}</td>
+                    <td>${item.package}</td>
+                    <td><input type="number" class="quantity-input" data-field="quantity" data-code="${item.code}" placeholder="0" min="0" step="1"></td>
+                    <td><input type="text" class="notes-input" data-field="notes" data-code="${item.code}" placeholder="ملاحظات | Notes"></td>
+                    <td><button class="btn btn-reset remove-item-btn" style="padding: 5px; font-size: 12px; width: 100%;"><i class="fas fa-trash"></i></button></td>
+                `;
+                container.appendChild(row);
+            });
+            
+            updateGroupCount(groupId, items.length);
+        }
+        
+        // دالة لتحديث عدد الأصناف في المجموعة
+        function updateGroupCount(groupId, count) {
+            document.getElementById(`group-${groupId}-count`).textContent = count;
+            document.getElementById(`group-${groupId}-count-en`).textContent = count;
+        }
+        
+        // دالة لإضافة صنف جديد
+        function addNewItem(groupId) {
+            const container = document.getElementById(`group-${groupId}-items`);
+            const newIndex = container.querySelectorAll('tr').length + 1;
+            
+            const row = document.createElement('tr');
+            row.dataset.group = groupId;
+            row.dataset.itemCode = `new${groupId}${newIndex}`;
+            row.innerHTML = `
+                <td><input type="text" class="code-input" data-field="code" placeholder="الكود | Code" value="NEW${groupId}${newIndex}"></td>
+                <td><input type="text" class="item-name-input" data-field="name" placeholder="اسم الصنف | Item Name"></td>
+                <td><input type="text" class="package-input" data-field="package" placeholder="الشد (العبوة) | Package"></td>
+                <td><input type="number" class="quantity-input" data-field="quantity" placeholder="0" min="0" step="1"></td>
+                <td><input type="text" class="notes-input" data-field="notes" placeholder="ملاحظات | Notes"></td>
+                <td><button class="btn btn-reset remove-item-btn" style="padding: 5px; font-size: 12px; width: 100%;"><i class="fas fa-trash"></i></button></td>
+            `;
+            container.appendChild(row);
+            
+            // تحديث العدد
+            const newCount = container.querySelectorAll('tr').length;
+            updateGroupCount(groupId, newCount);
+            
+            // حفظ تلقائي
+            autoSave();
+        }
+        
+        // دالة لحذف صف
+        function removeItemRow(button) {
+            const row = button.closest('tr');
+            const groupId = row.dataset.group;
+            
+            if (confirm('هل أنت متأكد من حذف هذا الصنف؟ | Are you sure you want to delete this item?')) {
+                row.remove();
+                
+                // تحديث العدد
+                const container = document.getElementById(`group-${groupId}-items`);
+                const newCount = container.querySelectorAll('tr').length;
+                updateGroupCount(groupId, newCount);
+                
+                // حفظ التغييرات
+                autoSave();
+            }
+        }
+        
+        // دالة البحث الديناميكي في المطاعم
+        function searchRestaurants(query) {
+            const resultsContainer = document.getElementById('restaurant-results');
+            resultsContainer.innerHTML = '';
+            
+            if (!query || query.trim() === '') {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+            
+            const searchTerm = query.toLowerCase();
+            const filteredRestaurants = restaurants.filter(restaurant => 
+                restaurant.name.toLowerCase().includes(searchTerm) || 
+                restaurant.nameEn.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredRestaurants.length === 0) {
+                const noResultItem = document.createElement('div');
+                noResultItem.className = 'restaurant-result-item';
+                noResultItem.textContent = 'لا توجد نتائج | No results';
+                resultsContainer.appendChild(noResultItem);
+            } else {
+                filteredRestaurants.forEach(restaurant => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'restaurant-result-item';
+                    resultItem.innerHTML = `
+                        <div>${restaurant.name}</div>
+                        <div class="restaurant-en-name">${restaurant.nameEn}</div>
+                    `;
+                    resultItem.dataset.areaManager = restaurant.areaManager;
+                    resultItem.dataset.operationsManager = restaurant.operationsManager;
+                    
+                    resultItem.addEventListener('click', function() {
+                        document.getElementById('restaurant-search').value = restaurant.name;
+                        document.getElementById('restaurant-manager').value = '';
+                        document.getElementById('area-manager').value = restaurant.areaManager;
+                        document.getElementById('operations-manager').value = restaurant.operationsManager;
+                        document.getElementById('area-supervisor').value = restaurant.areaManager;
+                        document.getElementById('operations-manager-signature').value = restaurant.operationsManager;
+                        document.getElementById('restaurant-manager-signature').value = restaurant.areaManager;
+                        resultsContainer.style.display = 'none';
+                        autoSave();
+                    });
+                    
+                    resultsContainer.appendChild(resultItem);
+                });
+            }
+            
+            resultsContainer.style.display = 'block';
+        }
+        
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إنشاء الجداول لكل مجموعة
+            Object.keys(inventoryItems).forEach(groupId => {
+                createInventoryRows(groupId);
+            });
+            
+            // تحميل البيانات المحفوظة مسبقاً
+            loadSavedData();
+            
+            // إضافة مستمعي الأحداث للأزرار الرئيسية
+            document.getElementById('saveBtn').addEventListener('click', saveAllData);
+            document.getElementById('exportBtn').addEventListener('click', exportToExcel);
+            document.getElementById('resetBtn').addEventListener('click', resetForm);
+            document.getElementById('printBtn').addEventListener('click', printForm);
+            
+            // إضافة مستمعي الأحداث لأزرار إضافة الأصناف
+            document.querySelectorAll('.btn-add').forEach(button => {
+                button.addEventListener('click', function() {
+                    const groupId = this.dataset.group;
+                    addNewItem(groupId);
+                });
+            });
+            
+            // البحث الديناميكي في الأصناف
+            document.getElementById('search-input').addEventListener('input', filterItems);
+            
+            // البحث الديناميكي في المطاعم
+            const restaurantSearch = document.getElementById('restaurant-search');
+            restaurantSearch.addEventListener('input', function() {
+                searchRestaurants(this.value);
+            });
+            
+            // إغلاق نتائج البحث عند النقر خارجها
+            document.addEventListener('click', function(e) {
+                const resultsContainer = document.getElementById('restaurant-results');
+                if (!e.target.closest('.restaurant-search')) {
+                    resultsContainer.style.display = 'none';
+                }
+            });
+            
+            // إغلاق نتائج البحث عند الضغط على Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.getElementById('restaurant-results').style.display = 'none';
+                }
+            });
+            
+            // حفظ البيانات تلقائياً عند التعديل
+            document.addEventListener('change', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                    autoSave();
+                }
+            });
+            
+            // عند تغيير القائم بالجرد، تعبئة توقيعه تلقائياً
+            document.getElementById('inventory-by').addEventListener('input', function() {
+                document.getElementById('inventory-by-signature').value = this.value;
+                autoSave();
+            });
+            
+            // عند تغيير مسئول المطعم، تعبئة توقيعه تلقائياً
+            document.getElementById('restaurant-manager').addEventListener('input', function() {
+                document.getElementById('restaurant-manager-signature').value = this.value;
+                autoSave();
+            });
+            
+            // حذف الصنف
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.remove-item-btn')) {
+                    removeItemRow(e.target.closest('.remove-item-btn'));
+                }
+            });
+            
+            // إضافة تنقل بلوحة المفاتيح للحقول العلوية
+            const headerInputs = document.querySelectorAll('.restaurant-input, .inventory-by-input, .restaurant-manager-input, .manager-box input');
+            headerInputs.forEach((input, index) => {
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        if (index < headerInputs.length - 1) {
+                            headerInputs[index + 1].focus();
+                            headerInputs[index + 1].select();
+                        } else {
+                            // الانتقال إلى أول حقل في الجدول
+                            document.querySelector('.inventory-table input').focus();
+                            document.querySelector('.inventory-table input').select();
+                        }
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        if (index > 0) {
+                            headerInputs[index - 1].focus();
+                            headerInputs[index - 1].select();
+                        }
+                    }
+                });
+            });
+        });
+        
+        // دالة البحث والتصفية في الأصناف
+        function filterItems() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            let anyGroupHasResults = false;
+            
+            // تمرير على كل مجموعة
+            Object.keys(inventoryItems).forEach(groupId => {
+                let groupHasResults = false;
+                const container = document.getElementById(`group-${groupId}-container`);
+                const addButton = document.getElementById(`add-group-${groupId}-btn`);
+                const rows = document.querySelectorAll(`#group-${groupId}-items tr`);
+                
+                if (searchTerm === '') {
+                    // إظهار جميع المجموعات عند عدم وجود بحث
+                    container.style.display = 'block';
+                    if (addButton) addButton.style.display = 'block';
+                    document.getElementById(`group-${groupId}-no-results`).style.display = 'none';
+                    
+                    // إظهار جميع الصفوف
+                    rows.forEach(row => {
+                        row.style.display = '';
+                    });
+                    return;
+                }
+                
+                rows.forEach(row => {
+                    const itemCode = row.dataset.itemCode || '';
+                    const itemName = row.dataset.itemName || '';
+                    const codeInput = row.querySelector('.code-input');
+                    const nameInput = row.querySelector('.item-name-input');
+                    
+                    const codeValue = codeInput ? codeInput.value.toLowerCase() : itemCode;
+                    const nameValue = nameInput ? nameInput.value.toLowerCase() : itemName;
+                    
+                    if (codeValue.includes(searchTerm) || nameValue.includes(searchTerm)) {
+                        row.style.display = '';
+                        groupHasResults = true;
+                        anyGroupHasResults = true;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                
+                // إظهار أو إخفاء المجموعة بناءً على وجود نتائج
+                if (groupHasResults) {
+                    container.style.display = 'block';
+                    if (addButton) addButton.style.display = 'block';
+                    document.getElementById(`group-${groupId}-no-results`).style.display = 'none';
+                } else {
+                    container.style.display = 'none';
+                    if (addButton) addButton.style.display = 'none';
+                    document.getElementById(`group-${groupId}-no-results`).style.display = 'none';
+                }
+            });
+            
+            // إذا لم توجد أي نتائج في أي مجموعة، عرض رسالة
+            if (searchTerm !== '' && !anyGroupHasResults) {
+                // إخفاء جميع المجموعات
+                Object.keys(inventoryItems).forEach(groupId => {
+                    document.getElementById(`group-${groupId}-container`).style.display = 'none';
+                    const addButton = document.getElementById(`add-group-${groupId}-btn`);
+                    if (addButton) addButton.style.display = 'none';
+                });
+                
+                // عرض رسالة في أول مجموعة
+                document.getElementById('group-A-no-results').style.display = 'block';
+                document.getElementById('group-A-container').style.display = 'block';
+                document.getElementById('group-A-container').querySelector('.group-title').textContent = 'نتائج البحث | Search Results';
+            } else if (searchTerm === '') {
+                // إظهار جميع المجموعات
+                Object.keys(inventoryItems).forEach(groupId => {
+                    document.getElementById(`group-${groupId}-container`).style.display = 'block';
+                    const addButton = document.getElementById(`add-group-${groupId}-btn`);
+                    if (addButton) addButton.style.display = 'block';
+                });
+            }
+        }
+        
+        // دالة الحفظ التلقائي
+        function autoSave() {
+            const saveData = {
+                restaurant: document.getElementById('restaurant-search').value,
+                restaurantManager: document.getElementById('restaurant-manager').value,
+                inventoryBy: document.getElementById('inventory-by').value,
+                areaManager: document.getElementById('area-manager').value,
+                operationsManager: document.getElementById('operations-manager').value,
+                areaSupervisor: document.getElementById('area-supervisor').value,
+                operationsManagerSig: document.getElementById('operations-manager-signature').value,
+                inventoryBySig: document.getElementById('inventory-by-signature').value,
+                restaurantManagerSig: document.getElementById('restaurant-manager-signature').value,
+                inventoryItems: {}
+            };
+            
+            // جمع بيانات البضاعة لكل مجموعة
+            Object.keys(inventoryItems).forEach(groupId => {
+                saveData.inventoryItems[groupId] = [];
+                const rows = document.querySelectorAll(`#group-${groupId}-items tr`);
+                
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const itemData = {
+                        code: cells[0].querySelector('.code-input') ? cells[0].querySelector('.code-input').value : cells[0].textContent,
+                        name: cells[1].querySelector('.item-name-input') ? cells[1].querySelector('.item-name-input').value : cells[1].textContent,
+                        package: cells[2].querySelector('.package-input') ? cells[2].querySelector('.package-input').value : cells[2].textContent,
+                        quantity: cells[3].querySelector('input').value,
+                        notes: cells[4].querySelector('input').value
+                    };
+                    saveData.inventoryItems[groupId].push(itemData);
+                });
+            });
+            
+            // حفظ البيانات في localStorage
+            localStorage.setItem('naifInventoryData', JSON.stringify(saveData));
+            
+            // إشعار بصري للحفظ
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-check"></i> تم الحفظ | Saved';
+            saveBtn.style.backgroundColor = '#059669';
+            
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+                saveBtn.style.backgroundColor = '';
+            }, 1500);
+        }
+        
+        // دالة حفظ جميع البيانات
+        function saveAllData() {
+            autoSave();
+        }
+        
+        // دالة تحميل البيانات المحفوظة
+        function loadSavedData() {
+            const savedData = localStorage.getItem('naifInventoryData');
+            
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // تعبئة بيانات الرأس
+                document.getElementById('restaurant-search').value = data.restaurant || '';
+                document.getElementById('restaurant-manager').value = data.restaurantManager || '';
+                document.getElementById('inventory-by').value = data.inventoryBy || '';
+                document.getElementById('area-manager').value = data.areaManager || '';
+                document.getElementById('operations-manager').value = data.operationsManager || '';
+                document.getElementById('area-supervisor').value = data.areaSupervisor || '';
+                document.getElementById('operations-manager-signature').value = data.operationsManagerSig || '';
+                document.getElementById('inventory-by-signature').value = data.inventoryBySig || '';
+                document.getElementById('restaurant-manager-signature').value = data.restaurantManagerSig || '';
+                
+                // تعبئة بيانات البضاعة
+                if (data.inventoryItems) {
+                    Object.keys(data.inventoryItems).forEach(groupId => {
+                        const items = data.inventoryItems[groupId];
+                        if (items && items.length > 0) {
+                            const container = document.getElementById(`group-${groupId}-items`);
+                            container.innerHTML = '';
+                            
+                            items.forEach(itemData => {
+                                const row = document.createElement('tr');
+                                row.dataset.group = groupId;
+                                row.dataset.itemCode = itemData.code.toLowerCase();
+                                row.dataset.itemName = itemData.name.toLowerCase();
+                                
+                                // التحقق إذا كان الصنف مخصصاً (له حقول إدخال) أو قياسياً
+                                const isCustomItem = itemData.code.startsWith('NEW') || !inventoryItems[groupId].some(item => item.code === itemData.code);
+                                
+                                row.innerHTML = `
+                                    <td>${isCustomItem ? `<input type="text" class="code-input" data-field="code" value="${itemData.code}" placeholder="الكود | Code">` : itemData.code}</td>
+                                    <td>${isCustomItem ? `<input type="text" class="item-name-input" data-field="name" value="${itemData.name}" placeholder="اسم الصنف | Item Name">` : itemData.name}</td>
+                                    <td>${isCustomItem ? `<input type="text" class="package-input" data-field="package" value="${itemData.package}" placeholder="الشد (العبوة) | Package">` : itemData.package}</td>
+                                    <td><input type="number" class="quantity-input" data-field="quantity" value="${itemData.quantity || ''}" placeholder="0" min="0" step="1"></td>
+                                    <td><input type="text" class="notes-input" data-field="notes" value="${itemData.notes || ''}" placeholder="ملاحظات | Notes"></td>
+                                    <td><button class="btn btn-reset remove-item-btn" style="padding: 5px; font-size: 12px; width: 100%;"><i class="fas fa-trash"></i></button></td>
+                                `;
+                                container.appendChild(row);
+                            });
+                            
+                            updateGroupCount(groupId, items.length);
+                        }
+                    });
+                }
+            }
+        }
+        
+        // دالة تصدير البيانات إلى Excel
+        function exportToExcel() {
+            // جمع البيانات من النموذج
+            const data = [];
+            
+            // بيانات الرأس
+            data.push(['شركة نايف للأغذية | Naif Food Company']);
+            data.push(['كشف جرد البضاعة لعام 2025 | Inventory Count Report 2025']);
+            data.push(['المطعم | Restaurant:', document.getElementById('restaurant-search').value]);
+            data.push(['مسئول المطعم | Restaurant Manager:', document.getElementById('restaurant-manager').value]);
+            data.push(['القائم بعملية الجرد | Inventory By:', document.getElementById('inventory-by').value]);
+            data.push(['تاريخ الجرد | Count Date: 23-12-2025']);
+            data.push(['']);
+            
+            // بيانات البضاعة لكل مجموعة
+            Object.keys(groupNames).forEach(groupId => {
+                const groupName = groupNames[groupId];
+                const rows = document.querySelectorAll(`#group-${groupId}-items tr`);
+                
+                if (rows.length > 0) {
+                    data.push([`${groupName.ar} | ${groupName.en}`]);
+                    data.push(['الكود | Code', 'الصنف | Item', 'الشد (العبوة) | Package', 'الكمية | Quantity', 'ملاحظات | Notes']);
+                    
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        const code = cells[0].querySelector('.code-input') ? 
+                            cells[0].querySelector('.code-input').value : 
+                            cells[0].textContent;
+                        const name = cells[1].querySelector('.item-name-input') ? 
+                            cells[1].querySelector('.item-name-input').value : 
+                            cells[1].textContent;
+                        const package = cells[2].querySelector('.package-input') ? 
+                            cells[2].querySelector('.package-input').value : 
+                            cells[2].textContent;
+                        
+                        const rowData = [
+                            code,
+                            name,
+                            package,
+                            cells[3].querySelector('input').value,
+                            cells[4].querySelector('input').value
+                        ];
+                        data.push(rowData);
+                    });
+                    
+                    data.push(['']);
+                }
+            });
+            
+            data.push(['']);
+            data.push(['التوقيعات | Signatures']);
+            data.push(['القائم بعملية الجرد | Inventory By:', document.getElementById('inventory-by-signature').value]);
+            data.push(['مسئول المطعم | Restaurant Manager:', document.getElementById('restaurant-manager-signature').value]);
+            data.push(['مشرف المنطقة | Area Supervisor:', document.getElementById('area-supervisor').value]);
+            data.push(['مدير التشغيل | Operations Manager:', document.getElementById('operations-manager-signature').value]);
+            data.push(['']);
+            data.push(['تاريخ التصدير | Export Date:', new Date().toLocaleDateString('en-GB')]);
+            
+            // إنشاء ورقة عمل
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            
+            // تعيين عرض الأعمدة
+            const wscols = [
+                {wch: 12},   // الكود
+                {wch: 50},   // الصنف
+                {wch: 20},   // الشد
+                {wch: 10},   // الكمية
+                {wch: 30}    // الملاحظات
+            ];
+            ws['!cols'] = wscols;
+            
+            // إنشاء مصنف
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "جرد البضاعة | Inventory");
+            
+            // تنزيل الملف
+            const restaurantName = document.getElementById('restaurant-search').value || 'مطعم | Restaurant';
+            const fileName = `جرد_البضاعة_${restaurantName.replace(/\s+/g, '_')}_23-12-2025.xlsx`;
+            XLSX.writeFile(wb, fileName);
+            
+            // إشعار المستخدم
+            alert('تم تصدير البيانات بنجاح! سيتم تنزيل ملف Excel. | Data exported successfully! Excel file will be downloaded.');
+        }
+        
+        // دالة مسح النموذج
+        function resetForm() {
+            if (confirm('هل أنت متأكد من رغبتك في مسح جميع البيانات؟ | Are you sure you want to reset all data?')) {
+                localStorage.removeItem('naifInventoryData');
+                
+                // إعادة تعيين الحقول
+                document.getElementById('restaurant-search').value = '';
+                document.getElementById('restaurant-manager').value = '';
+                document.getElementById('inventory-by').value = '';
+                document.getElementById('area-manager').value = '';
+                document.getElementById('operations-manager').value = '';
+                document.getElementById('area-supervisor').value = '';
+                document.getElementById('operations-manager-signature').value = '';
+                document.getElementById('inventory-by-signature').value = '';
+                document.getElementById('restaurant-manager-signature').value = '';
+                document.getElementById('search-input').value = '';
+                
+                // إعادة تعيين الجداول إلى الحالة الأصلية
+                Object.keys(inventoryItems).forEach(groupId => {
+                    createInventoryRows(groupId);
+                });
+                
+                // إظهار جميع المجموعات
+                Object.keys(inventoryItems).forEach(groupId => {
+                    document.getElementById(`group-${groupId}-container`).style.display = 'block';
+                    const addButton = document.getElementById(`add-group-${groupId}-btn`);
+                    if (addButton) addButton.style.display = 'block';
+                    document.getElementById(`group-${groupId}-no-results`).style.display = 'none';
+                });
+                
+                alert('تم مسح جميع البيانات بنجاح. | All data has been reset successfully.');
+            }
+        }
+        
+        // دالة طباعة النموذج
+        function printForm() {
+            // حفظ البيانات أولاً
+            saveAllData();
+            
+            // إنشاء محتوى الطباعة
+            const printContent = document.getElementById('print-content');
+            printContent.innerHTML = '';
+            
+            // جمع بيانات للطباعة
+            const restaurantName = document.getElementById('restaurant-search').value || 'غير محدد | Not Specified';
+            const restaurantManager = document.getElementById('restaurant-manager').value || 'غير محدد | Not Specified';
+            const inventoryBy = document.getElementById('inventory-by').value || 'غير محدد | Not Specified';
+            const inventoryDate = '23-12-2025';
+            
+            // إنشاء صفحة واحدة بدون تقسيم
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'print-section';
+            
+            // محتوى الصفحة
+            let pageContent = `
+                <div class="page-header">
+                    <img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" alt="شعار شركة نايف للأغذية | Naif Food Company Logo" class="print-logo">
+                    <div class="print-company">شركة نايف للأغذية</div>
+                    <div class="print-company-en">Naif Food Company</div>
+                    <div class="print-title">كشف جرد البضاعة لعام 2025</div>
+                    <div class="print-title-en">Inventory Count Report 2025</div>
+                    <div class="print-info">
+                        <div>المطعم | Restaurant: ${restaurantName}</div>
+                        <div>مسئول المطعم | Manager: ${restaurantManager}</div>
+                        <div>القائم بالجرد | Inventory By: ${inventoryBy}</div>
+                        <div>تاريخ الجرد | Count Date: ${inventoryDate}</div>
+                    </div>
+                </div>`;
+            
+            // إضافة بيانات البضاعة لكل مجموعة
+            Object.keys(groupNames).forEach(groupId => {
+                const groupName = groupNames[groupId];
+                const rows = document.querySelectorAll(`#group-${groupId}-items tr`);
+                
+                if (rows.length > 0) {
+                    pageContent += `<div class="group-title-print">${groupName.ar}
+                        <div class="group-name-en-print">${groupName.en}</div>
+                    </div>
+                    <table class="print-table">
+                        <thead>
+                            <tr style="background-color: #e6fffa;">
+                                <th>الكود | Code</th>
+                                <th>الصنف | Item</th>
+                                <th>الشد (العبوة) | Package</th>
+                                <th>الكمية | Quantity</th>
+                                <th>ملاحظات | Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+                    
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        const code = cells[0].querySelector('.code-input') ? 
+                            cells[0].querySelector('.code-input').value : 
+                            cells[0].textContent;
+                        const name = cells[1].querySelector('.item-name-input') ? 
+                            cells[1].querySelector('.item-name-input').value : 
+                            cells[1].textContent;
+                        const package = cells[2].querySelector('.package-input') ? 
+                            cells[2].querySelector('.package-input').value : 
+                            cells[2].textContent;
+                        
+                        pageContent += `
+                            <tr>
+                                <td>${code}</td>
+                                <td>${name}</td>
+                                <td>${package}</td>
+                                <td>${cells[3].querySelector('input').value || '0'}</td>
+                                <td>${cells[4].querySelector('input').value || ''}</td>
+                            </tr>`;
+                    });
+                    
+                    pageContent += `</tbody></table>`;
+                }
+            });
+            
+            pageContent += `
+                <div class="print-signatures">
+                    <div class="print-signature-box">
+                        <div class="print-signature-label">القائم بعملية الجرد</div>
+                        <div class="print-signature-label-en">Inventory By</div>
+                        <div>${document.getElementById('inventory-by-signature').value || ''}</div>
+                    </div>
+                    <div class="print-signature-box">
+                        <div class="print-signature-label">مسئول المطعم</div>
+                        <div class="print-signature-label-en">Restaurant Manager</div>
+                        <div>${document.getElementById('restaurant-manager-signature').value || ''}</div>
+                    </div>
+                    <div class="print-signature-box">
+                        <div class="print-signature-label">مشرف المنطقة</div>
+                        <div class="print-signature-label-en">Area Supervisor</div>
+                        <div>${document.getElementById('area-supervisor').value || ''}</div>
+                    </div>
+                    <div class="print-signature-box">
+                        <div class="print-signature-label">مدير التشغيل</div>
+                        <div class="print-signature-label-en">Operations Manager</div>
+                        <div>${document.getElementById('operations-manager-signature').value || ''}</div>
+                    </div>
+                </div>`;
+            
+            pageDiv.innerHTML = pageContent;
+            printContent.appendChild(pageDiv);
+            
+            // فتح نافذة الطباعة
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html dir="rtl">
+                <head>
+                    <title>كشف جرد البضاعة لعام 2025 - ${restaurantName} | Inventory Count Report 2025</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 10px; margin: 0; font-size: 12px; }
+                        .print-section { width: 100%; }
+                        .page-header { text-align: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid #059669; }
+                        .print-logo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid #059669; margin: 0 auto 5px; }
+                        .print-company { font-size: 16px; font-weight: bold; color: #059669; margin-bottom: 2px; }
+                        .print-company-en { font-size: 12px; color: #4b5563; margin-bottom: 5px; }
+                        .print-title { font-size: 14px; font-weight: bold; color: #1e3a8a; margin-bottom: 3px; }
+                        .print-title-en { font-size: 12px; color: #6b7280; margin-bottom: 6px; }
+                        .print-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 10px; flex-wrap: wrap; }
+                        .print-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 10px; page-break-inside: auto; }
+                        .print-table th { background-color: #f8fafc; padding: 5px 4px; text-align: right; font-weight: bold; color: #1e3a8a; border: 1px solid #dbeafe; font-size: 9px; }
+                        .print-table td { padding: 3px 4px; border: 1px solid #dbeafe; text-align: right; page-break-inside: avoid; page-break-after: auto; font-size: 9px; height: 24px; }
+                        .print-table tr { page-break-inside: avoid; page-break-after: auto; height: 26px; }
+                        .group-title-print { background-color: #eff6ff; padding: 6px 8px; margin: 10px 0 6px; border-right: 4px solid #3b82f6; font-weight: bold; color: #1e3a8a; font-size: 11px; }
+                        .group-name-en-print { font-size: 9px; color: #4b5563; font-weight: 500; font-style: italic; margin-top: 1px; }
+                        .print-signatures { display: flex; justify-content: space-between; margin-top: 25px; padding-top: 12px; border-top: 1px dashed #bfdbfe; font-size: 10px; page-break-inside: avoid; }
+                        .print-signature-box { text-align: center; width: 23%; }
+                        .print-signature-label { font-weight: bold; display: block; margin-bottom: 2px; border-bottom: 1px solid #bfdbfe; padding-bottom: 2px; font-size: 9px; }
+                        .print-signature-label-en { font-size: 8px; color: #6b7280; margin-bottom: 3px; }
+                        @media print {
+                            body { margin: 0; padding: 10px; font-size: 11px; }
+                            .print-table { page-break-inside: auto; }
+                            .print-table tr { page-break-inside: avoid; page-break-after: auto; }
+                            .print-table td { page-break-inside: avoid; page-break-after: auto; }
+                            .group-title-print { page-break-inside: avoid; page-break-after: avoid; }
+                            .print-signatures { page-break-inside: avoid; }
+                            @page { margin: 0.5cm; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${printContent.innerHTML}
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // تأخير الطباعة قليلاً لتحميل المحتوى
+            setTimeout(() => {
+                printWindow.print();
+            }, 500);
+        }
+    </script>
+</body>
+</html>
